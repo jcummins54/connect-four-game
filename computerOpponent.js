@@ -74,15 +74,6 @@ export const getMoveValues = board => {
   return moveValues;
 };
 
-export const getSquareCounts = (square, lastSquare, counts) => {
-  if (square === PLAYER1 && lastSquare !== PLAYER2) {
-    counts.player1Count++;
-  } else if (square === PLAYER2 && lastSquare !== PLAYER1) {
-    counts.player2Count++;
-  }
-  return counts;
-};
-
 export const evaluatePosition = (rowSquares, currentPlayer, x) => {
   const opponent = currentPlayer === PLAYER1 ? PLAYER2 : PLAYER1;
   const left = x - WINCOUNT < 0 ? 0 : x - WINCOUNT;
