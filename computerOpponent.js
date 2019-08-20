@@ -39,9 +39,8 @@ export const sortDescending = (a, b) => {
   return a > b ? -1 : b > a ? 1 : 0;
 };
 
-export const getMoveValues = board => {
+export const getMoveValues = (board, currentPlayer) => {
   const legalMoves = getLegalMoves(board);
-  const currentPlayer = getCurrentPlayer(board);
   let moveValues = [];
 
   for (let i = 0; i < legalMoves.length; i++) {
@@ -82,20 +81,26 @@ export const evaluatePosition = (rowSquares, currentPlayer, x) => {
   let defenseValue = 0;
 
   for (let i = left; i <= x; i++) {
+    if (i + WINCOUNT > rowSquares.length) {
+      continue;
+    }
     let av = 0;
     let dv = 0;
-    let right =
-      i + WINCOUNT > rowSquares.length ? rowSquares.length : i + WINCOUNT;
+    let right = i + WINCOUNT;
     let square;
+    let isLossPossible = true;
 
     for (let j = i; j < right; j++) {
       square = rowSquares[j];
       if (square === currentPlayer) {
         av++;
         dv = 0;
+        isLossPossible = false;
       } else if (square === opponent) {
-        dv++;
         av = 0;
+        if (isLossPossible) {
+          dv++;
+        }
       }
     }
     attackValue = av > attackValue ? av : attackValue;
@@ -149,7 +154,7 @@ export const checkDiagDownLeft = (board, currentPlayer, x, y) => {
 
   let rowSquares = [];
   let posX;
-  let col = x > y ? x + y : BOARD_COLS - 1;
+  let col = topOfDiagonal < 0 ? x + y : BOARD_COLS - 1;
   let row = topOfDiagonal > 0 ? topOfDiagonal : 0;
 
   while (col >= 0 && row < BOARD_ROWS) {
@@ -181,7 +186,42 @@ export const sortMoveDefenseValuesDescending = (a, b) => {
 };
 
 export const getComputerNextMove = board => {
-  const moveValues = getMoveValues(board);
+  const currentPlayer = getCurrentPlayer(board);
+  const moveValues = getMoveValues(board, currentPlayer);
+
+  let i;
+  let j;
+  let x;
+
+  const futureMoves = future(board, currentPlayer);
+  if (futureMoves.winning.length > 0) {
+    for (i = 0; i < futureMoves.winning.length; i++) {
+      x = futureMoves.winning[i];
+      for (j = 0; j < moveValues.length; j++) {
+        if (moveValues[j].x === x && moveValues[j].attackValue < WINCOUNT - 2) {
+          moveValues[j].attackValue = WINCOUNT - 2;
+        }
+      }
+    }
+  }
+  if (futureMoves.losing.length > 0) {
+    for (i = 0; i < futureMoves.losing.length; i++) {
+      x = futureMoves.losing[i];
+      for (j = 0; j < moveValues.length; j++) {
+        if (
+          moveValues[j].x === x &&
+          moveValues[j].defenseValue < WINCOUNT - 1
+        ) {
+          moveValues[j].defenseValue = 0;
+          // Making this move will lose on next turn, so don't make it unless this move wins
+          if (moveValues[j].attackValue < WINCOUNT - 1) {
+            moveValues[j].attackValue = 0;
+          }
+        }
+      }
+    }
+  }
+
   const attackMoves = moveValues.slice().sort(sortMoveAttackValuesDescending);
   const defenseMoves = moveValues.slice().sort(sortMoveDefenseValuesDescending);
   const topAttackMove = attackMoves[0];
@@ -218,4 +258,40 @@ export const getComputerNextMove = board => {
     Math.abs(b.x - colMid) < Math.abs(a.x - colMid) ? b : a
   );
   return centerDefense.x;
+};
+
+export const future = (board, currentPlayer) => {
+  const legalMoves = getLegalMoves(board);
+  const opponent = currentPlayer === PLAYER1 ? PLAYER2 : PLAYER1;
+
+  let losing = [];
+  let winning = [];
+  let newBoard;
+  for (let i = 0; i < legalMoves.length; i++) {
+    let move = legalMoves[i];
+    newBoard = JSON.parse(JSON.stringify(board));
+    newBoard[move.y][move.x] = currentPlayer;
+    let moveValues = getMoveValues(newBoard, opponent);
+    let attackMoves = moveValues.slice().sort(sortMoveAttackValuesDescending);
+    let defenseMoves = moveValues.slice().sort(sortMoveDefenseValuesDescending);
+    let topAttackMove = attackMoves[0];
+    let topDefenseMove = defenseMoves[0];
+
+    // Opponent wins!
+    if (
+      topAttackMove.attackValue === WINCOUNT - 1 &&
+      losing.indexOf(move.x) === -1
+    ) {
+      losing.push(move.x);
+    }
+
+    // Computer wins!
+    if (
+      topDefenseMove.defenseValue === WINCOUNT - 1 &&
+      winning.indexOf(move.x) === -1
+    ) {
+      winning.push(move.x);
+    }
+  }
+  return { winning, losing };
 };

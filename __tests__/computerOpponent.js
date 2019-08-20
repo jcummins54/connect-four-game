@@ -1,19 +1,6 @@
 import { getComputerNextMove } from "../computerOpponent";
 
 describe("getComputerNextMove", () => {
-  it("should move 4", () => {
-    const board = [
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", "☻", "☺", "☺", " "],
-      [" ", " ", "☺", "☺", "☻", "☻", " "],
-      ["☺", " ", "☻", "☻", "☻", "☺", " "],
-      ["☻", " ", "☺", "☻", "☻", "☺", " "],
-    ];
-    const result = getComputerNextMove(board);
-    expect(result).toBe(4);
-  });
-
   it("should win with move 0", () => {
     const board = [
       [" ", " ", " ", " ", " ", " ", " "],
@@ -21,7 +8,7 @@ describe("getComputerNextMove", () => {
       ["☺", " ", " ", " ", " ", " ", " "],
       ["☺", " ", " ", " ", " ", " ", " "],
       ["☺", " ", "☻", " ", " ", " ", " "],
-      ["☻", "☻", "☺", "☻", "☻", "☺", " "],
+      ["☻", "☻", "☺", "☻", "☻", "☺", "☻"],
     ];
     const result = getComputerNextMove(board);
     expect(result).toBe(0);
@@ -33,7 +20,7 @@ describe("getComputerNextMove", () => {
       [" ", " ", " ", " ", " ", " ", " "],
       ["☺", " ", " ", " ", " ", " ", " "],
       ["☺", " ", " ", " ", " ", " ", " "],
-      ["☺", " ", "☻", " ", " ", "☺", " "],
+      ["☺", " ", "☻", " ", " ", " ", " "],
       ["☻", "☻", "☺", "☻", "☻", "☺", " "],
     ];
     const result = getComputerNextMove(board);
@@ -90,5 +77,45 @@ describe("getComputerNextMove", () => {
     ];
     const result = getComputerNextMove(board);
     expect(result).toBe(1);
+  });
+
+  it("should not move 5", () => {
+    const board = [
+      [" ", " ", "☻", " ", " ", " ", " "],
+      [" ", " ", "☺", " ", " ", " ", " "],
+      [" ", " ", "☺", "☺", " ", " ", " "],
+      [" ", " ", "☺", "☺", "☻", " ", " "],
+      [" ", " ", "☻", "☻", "☺", "☻", " "],
+      [" ", " ", "☻", "☺", "☻", "☻", " "],
+    ];
+    const result = getComputerNextMove(board);
+    expect(result).not.toBe(5);
+    expect(result).toBe(3);
+  });
+
+  it("should block with move 5", () => {
+    const board = [
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", "☻", " ", " ", " "],
+      [" ", " ", "☺", "☻", "☻", " ", " "],
+      [" ", " ", "☻", "☺", "☻", " ", " "],
+      [" ", "☺", "☺", "☻", "☺", " ", " "],
+      ["☺", "☻", "☺", "☻", "☺", " ", " "],
+    ];
+    const result = getComputerNextMove(board);
+    expect(result).toBe(5);
+  });
+
+  it("should block with move 0", () => {
+    const board = [
+      [" ", " ", " ", "☺", "☻", "☺", " "],
+      [" ", " ", "☻", "☻", "☻", "☺", "☻"],
+      ["☺", " ", "☺", "☻", "☻", "☻", "☺"],
+      ["☺", " ", "☻", "☻", "☺", "☺", "☺"],
+      ["☺", " ", "☺", "☺", "☻", "☺", "☻"],
+      ["☻", " ", "☺", "☻", "☺", "☻", "☻"],
+    ];
+    const result = getComputerNextMove(board);
+    expect(result).toBe(0);
   });
 });
