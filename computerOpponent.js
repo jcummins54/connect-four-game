@@ -9,7 +9,7 @@ import {
 
 import { getCurrentPlayer } from "./boardState";
 
-export const getLegalMoves = board => {
+export const getLegalMoves = (board) => {
   let moves = [];
   let square;
   let squareBelow;
@@ -185,7 +185,7 @@ export const sortMoveDefenseValuesDescending = (a, b) => {
     : 0;
 };
 
-export const getComputerNextMove = board => {
+export const getComputerNextMove = (board) => {
   const currentPlayer = getCurrentPlayer(board);
   const moveValues = getMoveValues(board, currentPlayer);
 
@@ -242,7 +242,7 @@ export const getComputerNextMove = board => {
   if (topAttackMove.attackValue > topDefenseMove.defenseValue) {
     const topAttackMoves = attackMoves
       .slice()
-      .filter(move => move.attackValue === topAttackMove.attackValue);
+      .filter((move) => move.attackValue === topAttackMove.attackValue);
     // Prefer the center of the board
     const centerAttack = topAttackMoves.reduce((a, b) =>
       Math.abs(b.x - colMid) < Math.abs(a.x - colMid) ? b : a
@@ -252,7 +252,7 @@ export const getComputerNextMove = board => {
 
   const topDefenseMoves = defenseMoves
     .slice()
-    .filter(move => move.defenseValue === topDefenseMove.defenseValue);
+    .filter((move) => move.defenseValue === topDefenseMove.defenseValue);
   // Prefer the center of the board
   const centerDefense = topDefenseMoves.reduce((a, b) =>
     Math.abs(b.x - colMid) < Math.abs(a.x - colMid) ? b : a
@@ -279,6 +279,7 @@ export const future = (board, currentPlayer) => {
 
     // Opponent wins!
     if (
+      topAttackMove &&
       topAttackMove.attackValue === WINCOUNT - 1 &&
       losing.indexOf(move.x) === -1
     ) {
@@ -287,6 +288,7 @@ export const future = (board, currentPlayer) => {
 
     // Computer wins!
     if (
+      topDefenseMove &&
       topDefenseMove.defenseValue === WINCOUNT - 1 &&
       winning.indexOf(move.x) === -1
     ) {

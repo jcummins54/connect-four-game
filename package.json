@@ -4,7 +4,7 @@
   "description": "Playable connect four game",
   "main": "index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles",
+    "test": "jest --watch --detectOpenHandles",
     "play": "node -r @babel/register index.js"
   },
   "author": "Jeremy Cummins",

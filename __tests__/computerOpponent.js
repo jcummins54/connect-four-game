@@ -118,4 +118,17 @@ describe("getComputerNextMove", () => {
     const result = getComputerNextMove(board);
     expect(result).toBe(0);
   });
+
+  it("should win with move 0", () => {
+    const board = [
+      [" ", "☻", "☻", "☺", "☺", "☺", "☻"],
+      ["☻", "☺", "☺", "☻", "☺", "☺", "☺"],
+      ["☺", "☻", "☺", "☺", "☺", "☻", "☺"],
+      ["☺", "☺", "☻", "☺", "☻", "☺", "☻"],
+      ["☻", "☻", "☻", "☺", "☻", "☻", "☻"],
+      ["☻", "☻", "☺", "☻", "☻", "☻", "☺"],
+    ];
+    const result = getComputerNextMove(board);
+    expect(result).toBe(0);
+  });
 });
