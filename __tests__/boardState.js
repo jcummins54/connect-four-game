@@ -2,7 +2,7 @@ import {
   isColumnFull,
   isBoardStateValid,
   getCurrentPlayer,
-} from "../boardState";
+} from "../js/boardState.js";
 
 describe("isColumnFull", () => {
   it("should return false", () => {

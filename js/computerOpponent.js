@@ -5,9 +5,9 @@ import {
   BOARD_ROWS,
   BOARD_COLS,
   WINCOUNT,
-} from "./config";
+} from "./config.js";
 
-import { getCurrentPlayer } from "./boardState";
+import { getCurrentPlayer } from "./boardState.js";
 
 export const getLegalMoves = (board) => {
   let moves = [];
@@ -146,6 +146,8 @@ export const checkDiagDownRight = (board, currentPlayer, x, y) => {
     row++;
   }
 
+  posX = rowSquares.length - BOARD_COLS + posX;
+
   return evaluatePosition(rowSquares, currentPlayer, posX);
 };
 
@@ -165,6 +167,8 @@ export const checkDiagDownLeft = (board, currentPlayer, x, y) => {
     col--;
     row++;
   }
+  
+  rowSquares.reverse();
 
   return evaluatePosition(rowSquares, currentPlayer, posX);
 };

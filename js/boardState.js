@@ -1,4 +1,4 @@
-import { PLAYER1, PLAYER2, EMPTY, BOARD_ROWS, BOARD_COLS } from "./config";
+import { PLAYER1, PLAYER2, EMPTY, BOARD_ROWS, BOARD_COLS } from "./config.js";
 
 export const isColumnFull = (board, col) => {
   if (board[0][col] !== EMPTY) {

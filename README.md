@@ -9,7 +9,7 @@ npm test
 To play game
 
 ```
-npm run play
+npm run game
 ```
 
 To change board size or winning combo size, edit `config.js`.

@@ -5,7 +5,7 @@ import {
   BOARD_ROWS,
   BOARD_COLS,
   WINCOUNT,
-} from "./config";
+} from "./config.js";
 
 export const getSquareCounts = (square, counts) => {
   if (square === EMPTY) {
@@ -40,13 +40,13 @@ export const checkDirection = (board, x, y, xDir, yDir) => {
   if (xDir === 1 && x + WINCOUNT > BOARD_COLS) {
     return false;
   }
-  if (yDir === 1 && y + WINCOUNT > BOARD_ROWS) {
+  if (yDir === 1 && y + WINCOUNT > BOARD_ROWS) {    
     return false;
   }
-  if (xDir === -1 && x - WINCOUNT < 0) {
+  if (xDir === -1 && x - WINCOUNT < -1) {
     return false;
   }
-  if (yDir === -1 && y - WINCOUNT < 0) {
+  if (yDir === -1 && y - WINCOUNT < -1) {
     return false;
   }
 

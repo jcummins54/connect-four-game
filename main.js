@@ -3,10 +3,11 @@ import {
   isColumnFull,
   isBoardStateValid,
   getCurrentPlayer,
-} from "./boardState";
-import { checkWinner } from "./checkWinner";
-import { getComputerNextMove } from "./computerOpponent";
-import { PLAYER1, PLAYER2, EMPTY, BOARD_ROWS, BOARD_COLS } from "./config";
+} from "./js/boardState.js";
+import { checkWinner } from "./js/checkWinner.js";
+import { getComputerNextMove } from "./js/computerOpponent.js";
+import { buildBoard, printBoard, dropChip } from "./js/display.js";
+import { PLAYER1, PLAYER2, EMPTY, BOARD_COLS } from "./js/config.js";
 
 const rlInterface = readline.createInterface({
   input: process.stdin,
@@ -16,67 +17,6 @@ const rlInterface = readline.createInterface({
 let messages = [];
 export const setMessage = msg => {
   messages.push(msg);
-};
-
-const buildBoard = () => {
-  let boardArray = [];
-  for (let i = 0; i < BOARD_ROWS; i++) {
-    boardArray[i] = [];
-    for (let j = 0; j < BOARD_COLS; j++) {
-      boardArray[i][j] = EMPTY;
-    }
-  }
-  return boardArray;
-};
-
-const printBoard = board => {
-  let output = "\n";
-  let divider = "";
-  let square = "";
-  let colLabels = "";
-  for (let i = 0; i < BOARD_ROWS; i++) {
-    for (let j = 0; j < BOARD_COLS; j++) {
-      divider += "+---";
-      square += `| ${board[i][j]} `;
-      if (j === BOARD_COLS - 1) {
-        divider += "+";
-        square += "|";
-      }
-    }
-    output += ` ${divider}\n ${square}\n`;
-    divider = square = "";
-  }
-  for (let j = 0; j < BOARD_COLS; j++) {
-    divider += "+---";
-    colLabels += j > 9 ? `  ${j + 1}` : `   ${j + 1}`;
-  }
-  output += ` ${divider}+\n${colLabels}\n`;
-  console.clear();
-  console.log(output);
-};
-
-const sleep = ms => {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
-};
-
-const dropChip = async (board, col, currentPlayer) => {
-  let speed = 120;
-  for (let i = 0; i < BOARD_ROWS; i++) {
-    if (board[i][col] === EMPTY) {
-      board[i][col] = currentPlayer;
-      if (i > 0) {
-        board[i - 1][col] = EMPTY;
-      }
-      printBoard(board);
-      speed = Math.round(speed * 0.8);
-      await sleep(speed);
-      if (i < BOARD_ROWS - 1 && board[i + 1][col] !== EMPTY) {
-        break;
-      }
-    }
-  }
 };
 
 const doPlay = async (board, col, computer) => {
@@ -138,8 +78,8 @@ const endGame = winner => {
   if (winner === EMPTY) {
     question = "Tie game!!! Play again (y or n)?";
   } else {
-    const winnerName = winner === PLAYER1 ? "Yellow" : "Red";
-    question = `\n${winnerName} wins!!! Play again (y or n)?`;
+    const winnerName = winner === PLAYER1 ? "Player 1" : "Player 2";
+    question = `\n${winner}${winnerName} wins!!! Play again (y or n)?`;
   }
   rlInterface.question(question, answer => {
     if (answer === "y") {

@@ -1,7 +1,7 @@
-import { checkWinner } from "../checkWinner";
+import { checkWinner } from "../js/checkWinner.js";
 
 describe("checkWinner", () => {
-  it("should return Y", () => {
+  it("Black should win", () => {
     const board = [
       [" ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", "☻", " ", " ", " "],
@@ -14,7 +14,7 @@ describe("checkWinner", () => {
     expect(result).toBe("☻");
   });
 
-  it("should return R", () => {
+  it("White should win", () => {
     const board = [
       [" ", " ", " ", "☺", " ", " ", " "],
       [" ", " ", " ", "☻", "☺", " ", " "],
@@ -25,5 +25,31 @@ describe("checkWinner", () => {
     ];
     const result = checkWinner(board);
     expect(result).toBe("☺");
+  });
+
+  it("White should win", () => {
+    const board = [
+      [" ", "☺", " ", "☻", " ", " ", " "],
+      ["☺", "☺", "☻", "☻", "☻", " ", " "],
+      ["☺", "☻", "☻", "☺", "☺", " ", " "],
+      ["☻", "☺", "☺", "☻", "☻", " ", "☻"],
+      ["☺", "☻", "☻", "☻", "☺", "☻", "☺"],
+      ["☺", "☻", "☺", "☺", "☻", "☺", "☺"],
+    ];
+    const result = checkWinner(board);
+    expect(result).toBe("☻");
+  });
+
+  it("White should win", () => {
+    const board = [
+      [" ", "☺", " ", " ", " ", " ", " "],
+      ["☺", "☺", "☻", "☻", "☻", " ", " "],
+      ["☺", "☻", "☻", "☺", "☺", " ", " "],
+      ["☻", "☺", "☺", "☻", "☻", "☻", "☻"],
+      ["☺", "☻", "☻", "☻", "☺", "☻", "☺"],
+      ["☺", "☻", "☺", "☺", "☻", "☺", "☺"],
+    ];
+    const result = checkWinner(board);
+    expect(result).toBe("☻");
   });
 });

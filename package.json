@@ -2,10 +2,10 @@
   "name": "connect-four",
   "version": "1.0.0",
   "description": "Playable connect four game",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "jest --watch --detectOpenHandles",
-    "play": "node -r @babel/register index.js"
+    "game": "node -r @babel/register main.js"
   },
   "author": "Jeremy Cummins",
   "license": "ISC",

@@ -1,0 +1,102 @@
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: rgb(36, 0, 4);
+  background: linear-gradient(0deg, rgb(60, 0, 199) 0%, rgb(77, 101, 147) 35%, rgb(198, 234, 255) 100%);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5em;
+  color: Navy;
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.5em;
+  margin: .5em 0 .1em 0;
+}
+
+#instructions {
+  font-size: .7em;
+  padding: 0 1em;
+  box-sizing: border-box;
+}
+
+#game {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#game .board-square {
+  display: inline-block;
+  font-size: 2em;
+  background-color: LightSteelBlue;
+  border: 2px solid Navy;
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  line-height: 1em;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+.dialog-box {
+  font-size: .75em;
+  position: absolute;
+  padding: 2em;
+  width: 80%;
+  top: 25%;
+  left: 10%;
+  text-align: center;
+  background: LightSteelBlue;
+  box-sizing: border-box;
+}
+
+.dialog-box p {
+  margin: 0 0 1em 0;
+  padding: 0;
+}
+
+.dialog-box button {
+  padding: .8em 1.4em;
+  font-size: 1em;
+  color: Navy;
+  background-color: LightCyan;
+  border-color: LightSteelBlue;
+  cursor: pointer;
+}
+
+#game-over {
+  font-weight: bold;
+  margin-top: 1em;
+  padding: .5em;
+  box-sizing: border-box;
+  background-color: LightSteelBlue;
+}
+
+#game-over button {
+  padding: .4em .5em;
+  font-size: 1em;
+  color: Navy;
+  background-color: LightCyan;
+  border-color: LightSteelBlue;
+  cursor: pointer;
+}
+
+#game-over .winner {
+  font-size: 1.3em;
+}
